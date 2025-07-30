@@ -1,4 +1,4 @@
-{% set version = '0.3.4' %}
+{% set version = "0.3.11" %}
 {% set posix = 'm2-' if win else '' %}
 
 package:
@@ -9,10 +9,10 @@ source:
   url:
     - {{ cran_mirror }}/src/contrib/bigutilsr_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/bigutilsr/bigutilsr_{{ version }}.tar.gz
-  sha256: b44b458f4b540deff5af1f956d1dbd138f4fc138cd2d77e35e69d873c406d024
+  sha256: 3cc7f2c390bbc498a0a156be2595d54a940d1685f1437603378b2b1d58433ef2
 
 build:
-  number: 2
+  number: 0
   rpaths:
     - lib/R/lib/
     - lib/
@@ -65,8 +65,7 @@ test:
 about:
   home: https://github.com/privefl/bigutilsr
   license: GPL-3.0-only
-  summary: Utility functions for large-scale data. For now, package 'bigutilsr' mainly includes
-    functions for outlier detection and unbiased PCA projection.
+  summary: Utility functions for large-scale data. For now, package 'bigutilsr' mainly includes functions for outlier detection and unbiased PCA projection.
   license_file:
     - '{{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-3'
 
