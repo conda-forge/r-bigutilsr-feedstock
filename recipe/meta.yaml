@@ -1,4 +1,4 @@
-{% set version = '0.3.4' %}
+{% set version = "0.3.11" %}
 {% set posix = 'm2-' if win else '' %}
 
 package:
@@ -9,53 +9,58 @@ source:
   url:
     - {{ cran_mirror }}/src/contrib/bigutilsr_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/bigutilsr/bigutilsr_{{ version }}.tar.gz
-  sha256: b44b458f4b540deff5af1f956d1dbd138f4fc138cd2d77e35e69d873c406d024
+  sha256: 3cc7f2c390bbc498a0a156be2595d54a940d1685f1437603378b2b1d58433ef2
 
 build:
-  number: 2
+  number: 0
   rpaths:
     - lib/R/lib/
     - lib/
-  # This is needed to suppress a warning about R.dll not being found
   missing_dso_whitelist:
-    - '*/R.dll'            # [win]
+    - '*/R.dll'        # [win]
+    - '*/Rblas.dll'    # [win]
+    - '*/Rlapack.dll'  # [win]
 
 requirements:
   build:
-    - {{ compiler('c') }}              # [not win]
-    - {{ stdlib("c") }}                # [not win]
-    - {{ compiler('m2w64_c') }}        # [win]
-    - {{ stdlib("m2w64_c") }}          # [win]
-    - {{ compiler('cxx') }}            # [not win]
-    - {{ compiler('m2w64_cxx') }}      # [win]
+    - cross-r-base {{ r_base }}    # [build_platform != target_platform]
+    - r-bigassertr                 # [build_platform != target_platform]
+    - r-bigparallelr               # [build_platform != target_platform]
+    - r-nabor                      # [build_platform != target_platform]
+    - r-rcpp                       # [build_platform != target_platform]
+    - r-rcpparmadillo              # [build_platform != target_platform]
+    - r-rcppeigen                  # [build_platform != target_platform]
+    - r-robustbase                 # [build_platform != target_platform]
+    - r-rspectra                   # [build_platform != target_platform]
+    - {{ compiler('c') }}          # [not win]
+    - {{ stdlib("c") }}            # [not win]
+    - {{ compiler('m2w64_c') }}    # [win]
+    - {{ stdlib("m2w64_c") }}      # [win]
+    - {{ compiler('cxx') }}        # [not win]
+    - {{ compiler('m2w64_cxx') }}  # [win]
     - {{ posix }}filesystem        # [win]
     - {{ posix }}make
     - {{ posix }}sed               # [win]
     - {{ posix }}coreutils         # [win]
     - {{ posix }}zip               # [win]
-    - cross-r-base {{ r_base }}    # [build_platform != target_platform]
-    - r-rspectra                   # [build_platform != target_platform]
-    - r-rcpp                       # [build_platform != target_platform]
-    - r-bigassertr >=0.1.1         # [build_platform != target_platform]
-    - r-bigparallelr >=0.2.3       # [build_platform != target_platform]
-    - r-nabor                      # [build_platform != target_platform]
-    - r-robustbase                 # [build_platform != target_platform]
   host:
     - r-base
-    - r-rspectra
-    - r-rcpp
     - r-bigassertr >=0.1.1
     - r-bigparallelr >=0.2.3
     - r-nabor
+    - r-rcpp
+    - r-rcpparmadillo
+    - r-rcppeigen
     - r-robustbase
+    - r-rspectra
   run:
     - r-base
-    - r-rspectra
-    - r-rcpp
     - r-bigassertr >=0.1.1
     - r-bigparallelr >=0.2.3
     - r-nabor
+    - r-rcpp
     - r-robustbase
+    - r-rspectra
 
 test:
   commands:
@@ -65,8 +70,7 @@ test:
 about:
   home: https://github.com/privefl/bigutilsr
   license: GPL-3.0-only
-  summary: Utility functions for large-scale data. For now, package 'bigutilsr' mainly includes
-    functions for outlier detection and unbiased PCA projection.
+  summary: Utility functions for large-scale data. For now, package 'bigutilsr' mainly includes functions for outlier detection and unbiased PCA projection.
   license_file:
     - '{{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-3'
 
@@ -74,26 +78,3 @@ extra:
   recipe-maintainers:
     - conda-forge/r
     - pettyalex
-
-# Package: bigutilsr
-# Title: Utility Functions for Large-scale Data
-# Version: 0.3.4
-# Date: 2021-04-08
-# Authors@R: person("Florian", "Prive", email = "florian.prive.21@gmail.com", role = c("aut", "cre"))
-# Description: Utility functions for large-scale data. For now, package 'bigutilsr' mainly includes functions for outlier detection and unbiased PCA projection.
-# License: GPL-3
-# Encoding: UTF-8
-# Language: en-US
-# ByteCompile: TRUE
-# RoxygenNote: 7.1.1
-# URL: https://github.com/privefl/bigutilsr
-# BugReports: https://github.com/privefl/bigutilsr/issues
-# LinkingTo: Rcpp
-# Imports: bigassertr (>= 0.1.1), bigparallelr (>= 0.2.3), nabor, Rcpp, robustbase, RSpectra, stats
-# Suggests: covr, Gmedian, mvtnorm, rrcov, spelling, testthat (>= 2.1.0)
-# NeedsCompilation: yes
-# Packaged: 2021-04-08 11:17:27 UTC; au639593
-# Author: Florian Prive [aut, cre]
-# Maintainer: Florian Prive <florian.prive.21@gmail.com>
-# Repository: CRAN
-# Date/Publication: 2021-04-13 22:00:11 UTC
